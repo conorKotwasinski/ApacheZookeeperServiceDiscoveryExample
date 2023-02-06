@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Check if mynetwork exists
+if [ "$(docker network ls | grep mynetwork)" == "" ]; then
+  echo "Creating mynetwork..."
+  docker network create --subnet=172.20.0.0/16 mynetwork
+else
+  echo "mynetwork already exists."
+fi
+
+# Build the Python script image
+docker build -f Dockerpython -t client .
+docker build -f Dockerpython2 -t secondclient .
+
+# Build the Apache ZooKeeper image
+docker build -f Dockerfile-zookeeper -t zookeeper .
+
+docker build -f Dockercommand -t commandline .
+
+# Run the Python script containers
+#docker run --network mynetwork -d --name client1 client
+#docker run --network mynetwork -d --name python-script-2 python-script
+
+# Run the Apache ZooKeeper container
+docker run --network mynetwork --ip 172.20.0.2 -p 2181:2181 -d --name zookeeper zookeeper
+docker run --network mynetwork --ip 172.20.0.3 -p 10000:10000 -d --name client1 client
+docker run --network mynetwork --ip 172.20.0.4 -p 10001:10001 -d --name client2 secondclient
+docker run --network mynetwork -d --name commandline commandline

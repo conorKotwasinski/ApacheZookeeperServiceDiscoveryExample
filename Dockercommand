@@ -1,0 +1,12 @@
+FROM alpine:3.12
+
+RUN apk update && apk add python3 && apk add netcat-openbsd && apk add nmap && apk add iputils \
+    && apk add py3-pip
+
+RUN pip3 install kazoo 
+
+COPY script.sh /
+COPY simpleconnect.py /
+COPY simplesearch.py /
+CMD ["/bin/sh", "/script.sh"]
+

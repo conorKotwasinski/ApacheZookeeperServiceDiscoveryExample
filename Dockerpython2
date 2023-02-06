@@ -1,0 +1,10 @@
+FROM python:3.9-alpine
+
+RUN apk add --update --no-cache build-base
+RUN pip install kazoo
+
+WORKDIR /app
+COPY pythonscript2.py .
+EXPOSE 10001
+CMD ["python","-u", "pythonscript2.py"]
+
