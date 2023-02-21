@@ -1,0 +1,51 @@
+version: '3'
+
+networks:
+  mynetwork:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+
+services:
+  zookeeper:
+    build:
+      context: .
+      dockerfile: Dockerfile-zookeeper
+    networks:
+      mynetwork:
+        ipv4_address: 172.20.0.2
+    ports:
+      - "2181:2181"
+    restart: always
+
+  client1:
+    build:
+      context: .
+      dockerfile: Dockerpython
+    networks:
+      mynetwork:
+        ipv4_address: 172.20.0.3
+    ports:
+      - "10000:10000"
+    restart: always
+
+  client2:
+    build:
+      context: .
+      dockerfile: Dockerpython2
+    networks:
+      mynetwork:
+        ipv4_address: 172.20.0.4
+    ports:
+      - "10001:10001"
+    restart: always
+
+  commandline:
+    build:
+      context: .
+      dockerfile: Dockercommand
+    networks:
+      mynetwork:
+    restart: always
+

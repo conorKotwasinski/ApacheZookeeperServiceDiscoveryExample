@@ -5,13 +5,14 @@ RUN apk add --update --no-cache curl
 # Download and extract Apache ZooKeeper
 RUN curl -O https://downloads.apache.org/zookeeper/zookeeper-3.6.2/apache-zookeeper-3.6.2-bin.tar.gz \
     && tar -xzf apache-zookeeper-3.6.2-bin.tar.gz \
-    && rm apache-zookeeper-3.6.2-bin.tar.gz
+    && rm apache-zookeeper-3.6.2-bin.tar.gz \
+    && apk add --no-cache iputils
 
 WORKDIR /apache-zookeeper-3.6.2-bin
 
 # Copy the configuration file
-COPY zoo.cfg conf/
-RUN sed -i 's/maxClientCnxns=.*/maxClientCnxns=999999999/g' zoo.cfg
+#COPY zoo.cfg conf/
+#RUN sed -i 's/maxClientCnxns=.*/maxClientCnxns=999999999/g' zoo.cfg
 # Expose the default ZooKeeper client port
 EXPOSE 2181
 

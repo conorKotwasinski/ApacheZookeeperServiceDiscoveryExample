@@ -9,8 +9,8 @@ else
 fi
 
 # Build the Python script image
-docker build -f Dockerpython -t client .
-docker build -f Dockerpython2 -t secondclient .
+docker build -f client1/Dockerpython -t client .
+docker build -f client2/Dockerpython -t secondclient .
 
 # Build the Apache ZooKeeper image
 docker build -f Dockerfile-zookeeper -t zookeeper .

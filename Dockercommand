@@ -8,5 +8,6 @@ RUN pip3 install kazoo
 COPY script.sh /
 COPY simpleconnect.py /
 COPY simplesearch.py /
+COPY searchzk.py /
 CMD ["/bin/sh", "/script.sh"]
 
